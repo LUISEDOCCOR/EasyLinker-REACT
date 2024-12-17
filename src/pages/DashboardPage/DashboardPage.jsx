@@ -1,7 +1,7 @@
 import { DashboardLayout } from "@/layouts";
 import { useProtectedRoute, useAuthContext } from "@/hooks";
-import { CButton } from "@/components";
-import { LogOut } from "lucide-react";
+import { CButton, CInput } from "@/components";
+import { LogOut, Italic, Plus } from "lucide-react";
 
 export const DashboardPage = () => {
   useProtectedRoute();
@@ -18,11 +18,27 @@ export const DashboardPage = () => {
         </div>
       </header>
       <main className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
-        <section className="rounded-md bg-white p-6">
+        <section className="space-y-8 rounded-md bg-white p-6">
           <h2 className="text-xl font-semibold">CREAR NUEVA PÁGINA</h2>
+          <form className="space-y-3" action="">
+            <CInput
+              Icon={Italic}
+              name="name"
+              id="name"
+              placeholder="Mi Nueva Página"
+              type="text"
+              label="Titulo de la Página"
+              stateValue={() => {}}
+              setState=""
+            />
+            <CButton onClick={() => {}} color="#7CC67B" text="Crear">
+              <Plus width={24} />
+            </CButton>
+          </form>
         </section>
-        <section className="rounded-md bg-white p-6">
+        <section className="space-y-8 rounded-md bg-white p-6">
           <h2 className="text-xl font-semibold">TUS PÁGINAS</h2>
+          <span role="alert">No tienes páginas</span>
         </section>
       </main>
     </DashboardLayout>

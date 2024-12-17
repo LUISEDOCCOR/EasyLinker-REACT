@@ -1,48 +1,31 @@
 import { RootLayout } from "@/layouts";
 import { CLink, CButton } from "@/components";
-import { Mail, KeyRound } from "lucide-react";
-import { CInput, GoogleButton } from "@/components/Auth";
 import { useAuth, useProtectedRoute } from "@/hooks";
+import { LoginForm, SignUpForm } from "./_sections";
 
 export const AuthPage = () => {
   useProtectedRoute(false);
-  const { isLoading, setEmail, setPassword, email, password, auth } = useAuth();
 
-  const Inputs = [
-    {
-      Icon: Mail,
-      name: "mail",
-      id: "mail",
-      placeholder: "Tu correo:",
-      type: "email",
-      label: "Correo",
-      setState: setEmail,
-      stateValue: email,
-    },
-    {
-      Icon: KeyRound,
-      name: "password",
-      id: "password",
-      placeholder: "Crea una contraseña:",
-      type: "password",
-      label: "Contraseña",
-      setState: setPassword,
-      stateValue: password,
-    },
-  ];
+  const { auth, currentAction, setCurrentAction } = useAuth();
 
-  const Buttons = [
+  const Options = [
     {
-      onClick: () => auth("login"),
+      onClick: () => setCurrentAction("login"),
       color: "#F4D738",
-      text: `${isLoading ? "..." : "Inicia sesión"}`,
+      text: "Iniciar sesión",
+      disabled: currentAction == "login",
     },
     {
-      onClick: () => auth("signup"),
+      onClick: () => setCurrentAction("signup"),
       color: "#FF7A5C",
-      text: `${isLoading ? "..." : "Crear cuenta"}`,
+      text: "Crear cuenta",
+      disabled: currentAction == "signup",
     },
   ];
+
+  const onSubmit = (data) => {
+    auth(data);
+  };
 
   return (
     <RootLayout color="#BD4DC0">
@@ -53,23 +36,17 @@ export const AuthPage = () => {
           <p className="text-md text-neutral-500">
             Inicia sesión o crea una cuenta para continuar
           </p>
-        </section>
-        <form
-          className="space-y-5"
-          onSubmit={(e) => {
-            e.preventDefault();
-          }}
-        >
-          {Inputs.map((props, index) => (
-            <CInput key={index} {...props} />
-          ))}
           <div className="grid grid-cols-2 gap-3">
-            {Buttons.map((props, index) => (
+            {Options.map((props, index) => (
               <CButton {...props} key={index} />
             ))}
           </div>
-        </form>
-        {/* <GoogleButton /> */}
+        </section>
+        {currentAction == "signup" ? (
+          <SignUpForm onSubmit={onSubmit} />
+        ) : (
+          <LoginForm onSubmit={onSubmit} />
+        )}
       </main>
     </RootLayout>
   );
