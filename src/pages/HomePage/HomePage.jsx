@@ -1,7 +1,11 @@
 import { Globe, Users, Zap, DollarSign } from "lucide-react";
-import { Button } from "@/components";
+import { CLink } from "@/components";
+import { RootLayout } from "@/layouts";
+import { useAuthContext } from "@/hooks";
 
 export const HomePage = () => {
+  const { isLogged } = useAuthContext();
+
   const reasons = [
     {
       title: "CONTROL TOTAL",
@@ -27,9 +31,9 @@ export const HomePage = () => {
   ];
 
   return (
-    <div className="flex min-h-screen w-full flex-col items-center justify-center gap-12 bg-cOrange p-6 lg:p-0">
+    <RootLayout color="#fa933b">
       <header className="space-y-5 text-center">
-        <h1 className="text-3xl font-extrabold leading-snug lg:text-4xl xl:text-6xl">
+        <h1 className="text-3xl font-extrabold leading-snug lg:text-4xl 2xl:text-6xl">
           TU PROPIA WEB <br /> ES TU PODER
         </h1>
         <h2 className="text-lg font-semibold leading-tight lg:text-xl xl:text-2xl">
@@ -41,7 +45,7 @@ export const HomePage = () => {
         <section className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           {reasons.map((reason, index) => (
             <article
-              className="rounded-md border-4 border-black bg-white p-3 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] lg:space-y-3 lg:px-4 lg:py-4 xl:space-y-4 xl:px-6 xl:py-8"
+              className="rounded-md border-4 border-black bg-white p-3 shadow-nbru lg:space-y-3 lg:px-4 lg:py-4 xl:space-y-4 xl:px-6 xl:py-8"
               key={index}
             >
               <div className="flex items-center justify-between">
@@ -55,14 +59,18 @@ export const HomePage = () => {
               </p>
             </article>
           ))}
-          <article className="col-span-1 flex flex-col items-center justify-center gap-3 border-4 border-black bg-[#f1f1f1] p-3 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] lg:col-span-2 lg:px-4 lg:py-4 xl:space-y-4 xl:px-6 xl:py-8">
+          <article className="col-span-1 flex flex-col items-center justify-center gap-3 border-4 border-black bg-[#f1f1f1] p-3 shadow-nbru lg:col-span-2 lg:px-4 lg:py-4 xl:space-y-4 xl:px-6 xl:py-8">
             <h3 className="font-bold lg:text-xl xl:text-2xl">
               ¿LISTO PARA BRILLAR EN LA WEB?
             </h3>
             <p className="lg:text-md text-neutral-500 xl:text-xl">
               No esperes más. Tu futuro digital comienza ahora.
             </p>
-            <Button text="CREA TU WEB AHORA →" color="#4AD97C" />
+            <CLink
+              text={isLogged ? "Dashboard →" : "CREA TU WEB AHORA →"}
+              to={isLogged ? "/dashboard" : "/auth"}
+              color="#4AD97C"
+            />
           </article>
         </section>
       </main>
@@ -71,6 +79,6 @@ export const HomePage = () => {
           Únete a miles de profesionales que ya tienen su espacio en la web
         </p>
       </footer>
-    </div>
+    </RootLayout>
   );
 };
