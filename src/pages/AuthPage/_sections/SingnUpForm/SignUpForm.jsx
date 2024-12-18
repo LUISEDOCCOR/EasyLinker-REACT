@@ -1,16 +1,16 @@
 import { Mail, KeyRound } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod/src/zod";
-import { LoginZodSchema } from "@/zodSchemas";
-import { BaseForm } from "./BaseForm";
+import { SignUpSchema } from "@/zodSchemas";
+import { BaseForm } from "@/components";
 
-export const LoginForm = ({ onSubmit }) => {
+export const SignUpForm = ({ onSubmit }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(LoginZodSchema),
+    resolver: zodResolver(SignUpSchema),
   });
 
   const loginForm = {
@@ -33,12 +33,22 @@ export const LoginForm = ({ onSubmit }) => {
         register,
         errors,
       },
+      {
+        Icon: KeyRound,
+        name: "passwordConfirm",
+        id: "passwordConfirm",
+        placeholder: "Escribe nuevamente la contraseña",
+        type: "password",
+        label: "Confirma la contraseña:",
+        register,
+        errors,
+      },
     ],
     buttons: [
       {
         onClick: () => {},
         color: "#90EE90",
-        text: "Iniciar sesión",
+        text: "Crear cuenta",
       },
     ],
   };

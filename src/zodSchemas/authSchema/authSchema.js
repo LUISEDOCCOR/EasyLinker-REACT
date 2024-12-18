@@ -1,11 +1,11 @@
 import { z } from "zod";
 
-export const LoginZodSchema = z.object({
+export const LoginSchema = z.object({
   email: z.string().email("El correo no es válido"),
   password: z.string().min(8, "La contraseña ocupa como mínimo 8 caracteres"),
 });
 
-export const SignUpZodSchema = z
+export const SignUpSchema = z
   .object({
     email: z.string().email("El correo no es válido"),
     password: z.string().min(8, "La contraseña ocupa como mínimo 8 caracteres"),

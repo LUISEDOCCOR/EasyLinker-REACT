@@ -74,9 +74,12 @@ export const HomePage = () => {
           </article>
         </section>
       </main>
-      <footer>
-        <p className="text-center font-semibold lg:text-left lg:text-lg xl:text-xl">
+      <footer className="space-y-2 text-center">
+        <p className="font-semibold lg:text-left lg:text-lg xl:text-xl">
           Únete a miles de profesionales que ya tienen su espacio en la web
+        </p>
+        <p className="text-md underline underline-offset-2">
+          Aún en desarrollo 🔨
         </p>
       </footer>
     </RootLayout>
