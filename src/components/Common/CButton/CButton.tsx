@@ -1,4 +1,20 @@
-export const CButton = ({ text, color, onClick, children, disabled }) => {
+import React from "react";
+
+export interface CButtonProps {
+  text: string;
+  color: string;
+  onClick?: () => void;
+  children?: React.ReactNode;
+  disabled?: boolean;
+}
+
+export const CButton: React.FC<CButtonProps> = ({
+  text,
+  color,
+  onClick,
+  children,
+  disabled,
+}) => {
   return (
     <button
       onClick={onClick}

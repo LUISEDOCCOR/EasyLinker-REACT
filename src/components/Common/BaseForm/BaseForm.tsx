@@ -1,6 +1,12 @@
-import { CButton, CInput } from "@/components";
+import { CButton, CInput, CInputProps, CButtonProps } from "@/components";
+import React from "react";
 
-export const BaseForm = ({ handleSubmit, form }) => {
+export interface BaseFormProps {
+  form: { inputs: CInputProps[]; buttons: CButtonProps[] };
+  handleSubmit: () => void;
+}
+
+export const BaseForm: React.FC<BaseFormProps> = ({ handleSubmit, form }) => {
   return (
     <form className="space-y-5" onSubmit={handleSubmit}>
       {form.inputs.map((props, index) => (
