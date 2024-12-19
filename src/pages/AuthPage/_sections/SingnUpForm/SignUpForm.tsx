@@ -1,15 +1,20 @@
 import { Mail, KeyRound } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod/src/zod";
-import { SignUpSchema } from "@/zodSchemas";
+import { SignUpSchema, SignUpSchemaType } from "@/zodSchemas";
 import { BaseForm } from "@/components";
+import { AuthFunctionType } from "@/hooks";
+import React from "react";
 
-export const SignUpForm = ({ onSubmit }) => {
+export interface SignUpFormProps {
+  auth: AuthFunctionType;
+}
+export const SignUpForm: React.FC<SignUpFormProps> = ({ auth }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<SignUpSchemaType>({
     resolver: zodResolver(SignUpSchema),
   });
 
@@ -46,12 +51,18 @@ export const SignUpForm = ({ onSubmit }) => {
     ],
     buttons: [
       {
-        onClick: () => {},
         color: "#90EE90",
         text: "Crear cuenta",
       },
     ],
   };
 
-  return <BaseForm handleSubmit={handleSubmit(onSubmit)} form={loginForm} />;
+  return (
+    <BaseForm
+      handleSubmit={handleSubmit((data) => {
+        auth(data);
+      })}
+      form={loginForm}
+    />
+  );
 };

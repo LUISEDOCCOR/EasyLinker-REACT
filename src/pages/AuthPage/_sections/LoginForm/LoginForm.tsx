@@ -1,15 +1,21 @@
 import { Mail, KeyRound } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod/src/zod";
-import { LoginSchema } from "@/zodSchemas";
+import { LoginSchema, LoginSchemaType } from "@/zodSchemas";
 import { BaseForm } from "@/components";
+import { AuthFunctionType } from "@/hooks";
+import React from "react";
 
-export const LoginForm = ({ onSubmit }) => {
+export interface LoginFormProps {
+  auth: AuthFunctionType;
+}
+
+export const LoginForm: React.FC<LoginFormProps> = ({ auth }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
   });
 
@@ -36,12 +42,18 @@ export const LoginForm = ({ onSubmit }) => {
     ],
     buttons: [
       {
-        onClick: () => {},
         color: "#90EE90",
         text: "Iniciar sesión",
       },
     ],
   };
 
-  return <BaseForm handleSubmit={handleSubmit(onSubmit)} form={loginForm} />;
+  return (
+    <BaseForm
+      handleSubmit={handleSubmit((data) => {
+        auth(data);
+      })}
+      form={loginForm}
+    />
+  );
 };

@@ -23,10 +23,6 @@ export const AuthPage = () => {
     },
   ];
 
-  const onSubmit = (data) => {
-    auth(data);
-  };
-
   return (
     <RootLayout color="#BD4DC0">
       <main className="space-y-6 rounded-md border-4 border-black bg-white p-6 shadow-nbru lg:p-12">
@@ -43,9 +39,9 @@ export const AuthPage = () => {
           </div>
         </section>
         {currentAction == "signup" ? (
-          <SignUpForm onSubmit={onSubmit} />
+          <SignUpForm auth={auth} />
         ) : (
-          <LoginForm onSubmit={onSubmit} />
+          <LoginForm auth={auth} />
         )}
       </main>
     </RootLayout>

@@ -1,15 +1,15 @@
 import React from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { FormValues } from "@/types";
+import { LucideIcon } from "lucide-react";
 
 export interface CInputProps {
-  Icon?: React.FC<{ width: number }>;
+  Icon?: LucideIcon;
   name: string;
   placeholder?: string;
   type?: string;
   label: string;
-  register: UseFormRegister<FormValues>;
-  errors: FieldErrors<FormValues>;
+  register: UseFormRegister<any>;
+  errors: FieldErrors<any>;
 }
 
 export const CInput: React.FC<CInputProps> = ({
@@ -36,7 +36,7 @@ export const CInput: React.FC<CInputProps> = ({
       </div>
       {errors[name] && (
         <span role="alert" className="xl:text-md text-s">
-          {errors[name].message}
+          {errors[name]?.message?.toString()}
         </span>
       )}
     </label>

@@ -4,6 +4,7 @@ export const LoginSchema = z.object({
   email: z.string().email("El correo no es válido"),
   password: z.string().min(8, "La contraseña ocupa como mínimo 8 caracteres"),
 });
+export type LoginSchemaType = z.infer<typeof LoginSchema>;
 
 export const SignUpSchema = z
   .object({
@@ -17,3 +18,4 @@ export const SignUpSchema = z
     path: ["passwordConfirm"],
     message: "Las contraseñas deben coincidir",
   });
+export type SignUpSchemaType = z.infer<typeof SignUpSchema>;
