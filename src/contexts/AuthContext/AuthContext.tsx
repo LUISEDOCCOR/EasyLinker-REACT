@@ -1,10 +1,24 @@
-import { createContext } from "react";
+import React, { createContext } from "react";
 import { pb } from "@/pocketbase";
 import { useNavigate } from "react-router-dom";
 
-export const AuthContext = createContext();
+interface AuthContextValue {
+  isLogged: boolean;
+  Logout: () => void;
+}
 
-export const AuthContextProvider = ({ children }) => {
+interface AuthContextProviderProps {
+  children: React.ReactNode;
+}
+
+export const AuthContext = createContext<AuthContextValue>({
+  isLogged: false,
+  Logout: () => {},
+});
+
+export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
+  children,
+}) => {
   const navigate = useNavigate();
   const isLogged = pb.authStore.isValid;
   const Logout = () => {

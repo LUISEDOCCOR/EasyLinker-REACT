@@ -1,4 +1,14 @@
-export const DashboardLayout = ({ children, color }) => {
+import React from "react";
+
+export interface DashboardLayoutProps {
+  children: React.ReactNode;
+  color: string;
+}
+
+export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
+  children,
+  color,
+}) => {
   return (
     <div
       className="min-h-screen w-full p-6 xl:px-0 xl:py-12"
