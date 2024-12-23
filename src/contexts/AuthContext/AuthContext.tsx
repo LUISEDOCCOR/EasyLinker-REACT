@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 interface AuthContextValue {
   isLogged: boolean;
   Logout: () => void;
+  email: string;
 }
 
 interface AuthContextProviderProps {
@@ -14,13 +15,15 @@ interface AuthContextProviderProps {
 export const AuthContext = createContext<AuthContextValue>({
   isLogged: false,
   Logout: () => {},
+  email: "",
 });
 
 export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
   children,
 }) => {
   const navigate = useNavigate();
-  const isLogged = getCookie("email") && getCookie("token"); //pb.authStore.isValid;
+  const isLogged = getCookie("email") && getCookie("token");
+  const email = getCookie("email");
   const Logout = () => {
     removeCookie("token");
     removeCookie("email");
@@ -28,7 +31,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
   };
 
   return (
-    <AuthContext.Provider value={{ isLogged, Logout }}>
+    <AuthContext.Provider value={{ isLogged, Logout, email }}>
       {children}
     </AuthContext.Provider>
   );

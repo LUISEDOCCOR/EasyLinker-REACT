@@ -6,12 +6,15 @@ import { CreatePage } from "./_sections";
 
 export const DashboardPage = () => {
   useProtectedRoute();
-  const { Logout } = useAuthContext();
+  const { Logout, email } = useAuthContext();
 
   return (
     <DashboardLayout color="#BD4DC0">
       <header className="flex items-center justify-between">
-        <h1 className="text-3xl font-extrabold uppercase">EasyLinker</h1>
+        <div className="space-y-4">
+          <h1 className="text-3xl font-extrabold uppercase">EasyLinker</h1>
+          <span className="text-md">📧 {email}</span>
+        </div>
         <div className="w-28 xl:w-32">
           <CButton onClick={Logout} color="#F16D6E" text="Salir">
             <LogOut width={24} />
