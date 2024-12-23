@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { pb } from "@/pocketbase";
+import { getCookie } from "@/utils";
 
 export const useProtectedRoute = (x = true) => {
   const navigate = useNavigate();
@@ -8,11 +8,11 @@ export const useProtectedRoute = (x = true) => {
   useEffect(() => {
     const checkAuthStore = () => {
       if (x) {
-        if (!pb.authStore.isValid) {
+        if (!getCookie("email") || !getCookie("token")) {
           return navigate("/");
         }
       } else {
-        if (pb.authStore.isValid) {
+        if (getCookie("email") && getCookie("token")) {
           return navigate("/dashboard");
         }
       }

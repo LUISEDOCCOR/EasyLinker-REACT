@@ -14,13 +14,13 @@
     "@hookform/resolvers": "^3.9.1",
     "autoprefixer": "^10.4.20",
     "lucide-react": "^0.468.0",
-    "pocketbase": "^0.23.0",
     "postscss": "^2.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.1",
     "sonner": "^1.7.1",
     "tailwindcss": "^3.4.16",
+    "universal-cookie": "^7.2.2",
     "zod": "^3.24.1"
   },
   "devDependencies": {

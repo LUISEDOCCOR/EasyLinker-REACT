@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { pb } from "@/pocketbase";
 import { useNavigate } from "react-router-dom";
 import { SignUpSchemaType, LoginSchemaType } from "@/zodSchemas";
+import { fetchAPIAuth } from "@/services";
+import { setCookie } from "@/utils";
 
 type AuthActions = {
   login: LoginSchemaType;
@@ -20,18 +21,18 @@ export const useAuth = () => {
 
   const auth = async (data: AuthActions[typeof currentAction]) => {
     try {
-      if (currentAction == "signup") {
-        const signupData = data as SignUpSchemaType;
-        await pb.collection("users").create({
-          password: signupData.password,
-          passwordConfirm: signupData.passwordConfirm,
-          email: signupData.email,
-        });
+      const { json, response } = await fetchAPIAuth(data, currentAction);
+      if (response.status != 200) {
+        toast(json.msg);
+        return;
       }
-      await pb.collection("users").authWithPassword(data.email, data.password);
-      navigate("/dashboard");
+      if (json.email && json.token) {
+        setCookie({ key: "email", value: json.email });
+        setCookie({ key: "token", value: json.token });
+        navigate("/dashboard");
+      }
     } catch {
-      toast("Error con tus datos ingresa unos nuevos");
+      toast("Hubo un error, vuelve a intentarlo más tarde. ");
     }
   };
 

@@ -1,5 +1,5 @@
+import { getCookie, removeCookie } from "@/utils";
 import React, { createContext } from "react";
-import { pb } from "@/pocketbase";
 import { useNavigate } from "react-router-dom";
 
 interface AuthContextValue {
@@ -20,9 +20,10 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
   children,
 }) => {
   const navigate = useNavigate();
-  const isLogged = pb.authStore.isValid;
+  const isLogged = getCookie("email") && getCookie("token"); //pb.authStore.isValid;
   const Logout = () => {
-    pb.authStore.clear();
+    removeCookie("token");
+    removeCookie("email");
     navigate("/");
   };
 

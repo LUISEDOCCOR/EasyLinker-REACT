@@ -7,3 +7,5 @@ export const CreatePageSchema = z.object({
     .min(5, "Mínimo se ocupan 5 caracteres")
     .regex(/^[a-z]+$/, "Solo letras minúsculas y sin espacios"),
 });
+
+export type CreatePageSchemaType = z.infer<typeof CreatePageSchema>;
