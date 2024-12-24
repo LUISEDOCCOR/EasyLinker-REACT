@@ -1,11 +1,12 @@
 import { z } from "zod";
 
 export const CreatePageSchema = z.object({
-  title: z.string().min(5, "Mínimo se ocupan 5 caracteres"),
-  domain: z
+  title: z.string().min(3, "Mínimo se ocupan 3 caracteres"),
+  route: z
     .string()
-    .min(5, "Mínimo se ocupan 5 caracteres")
+    .min(3, "Mínimo se ocupan 3 caracteres")
     .regex(/^[a-z]+$/, "Solo letras minúsculas y sin espacios"),
+  description: z.string().min(5, "Mínimo se ocupan 5 caracteres"),
 });
 
 export type CreatePageSchemaType = z.infer<typeof CreatePageSchema>;

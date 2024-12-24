@@ -11,7 +11,6 @@ export const fetchAPIAuth = async (
     },
     body: JSON.stringify(data),
   });
-  console.log(response);
   const json = (await response.json()) as {
     msg: string;
     token?: string;
