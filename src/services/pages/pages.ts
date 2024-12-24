@@ -35,3 +35,14 @@ export const fetchAPIUserPages = async () => {
   const json = (await response.json()) as PageType[];
   return { json };
 };
+
+export const fetchAPIRemovePage = async (id: number) => {
+  const response = await fetch(`${API_URL}/page/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${getCookie("token")}`,
+    },
+  });
+  const json = (await response.json()) as { msg: string };
+  return { json, response };
+};

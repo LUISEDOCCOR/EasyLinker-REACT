@@ -66,12 +66,10 @@ export const CreatePage: React.FC<CreatePageProps> = ({ setPages }) => {
       const { json, response } = await fetchAPICreatePage(data);
       toast(json.msg);
       if (json.data && response.ok) {
-        setPages((prev) => {
-          return prev && [...prev, json.data];
-        });
+        setPages((prev) => prev && ([json.data, ...prev] as PageType[]));
       }
     } catch {
-      toast("Hubo un error, vuelve a intentarlo más tarde. ");
+      toast("Hubo un error, vuelve a intentarlo más tarde.");
     } finally {
       reset();
     }
