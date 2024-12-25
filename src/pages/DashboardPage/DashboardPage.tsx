@@ -1,17 +1,19 @@
 import { DashboardLayout } from "@/layouts";
-import { useProtectedRoute } from "@/hooks";
+import { useProtectedRoute, usePages } from "@/hooks";
 import { CreatePage, UserPages } from "./_sections";
-import { useState } from "react";
-import { PageType } from "@/services";
 
 export const DashboardPage = () => {
   useProtectedRoute();
-  const [pages, setPages] = useState<PageType[]>();
+  const { isLoading, pages, removePage, createPage } = usePages();
   return (
     <DashboardLayout color="#BD4DC0">
       <main className="grid grid-cols-1 gap-8 md:grid-cols-2">
-        <CreatePage setPages={setPages} />
-        <UserPages setPages={setPages} pages={pages} />
+        <CreatePage createPage={createPage} />
+        <UserPages
+          isLoading={isLoading}
+          pages={pages}
+          removePage={removePage}
+        />
       </main>
     </DashboardLayout>
   );
