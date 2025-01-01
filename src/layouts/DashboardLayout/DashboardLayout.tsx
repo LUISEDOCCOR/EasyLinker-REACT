@@ -1,7 +1,8 @@
 import React from "react";
 import { CButton } from "@/components";
-import { LogOut } from "lucide-react";
-import { useAuthContext } from "@/hooks";
+import { LogOut, Home } from "lucide-react";
+import { useAuthContext, useProtectedRoute } from "@/hooks";
+import { useMatch, useNavigate } from "react-router-dom";
 
 export interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -12,7 +13,11 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   children,
   color,
 }) => {
+  useProtectedRoute();
   const { Logout, email } = useAuthContext();
+  const navigate = useNavigate();
+  const isHome = useMatch("dashboard");
+
   return (
     <div
       className="min-h-screen w-full p-6 xl:px-0 xl:py-12"
@@ -24,7 +29,16 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             <h1 className="text-3xl font-extrabold uppercase">EasyLinker</h1>
             <span className="text-md">📧 {email}</span>
           </div>
-          <div className="hidden w-28 md:block xl:w-32">
+          <div className="hidden items-center gap-2 md:flex">
+            {!isHome && (
+              <CButton
+                onClick={() => navigate("/dashboard")}
+                color="#69D2E7"
+                text="Home"
+              >
+                <Home width={24} />
+              </CButton>
+            )}
             <CButton onClick={Logout} color="#F16D6E" text="Salir">
               <LogOut width={24} />
             </CButton>

@@ -4,21 +4,25 @@ import {
   fetchAPIUserPages,
   fetchAPIRemovePage,
   fetchAPICreatePage,
+  fetchAPIGetPageById,
 } from "@/services";
 import { toast } from "sonner";
 import { CreatePageSchemaType } from "@/zodSchemas";
 import { UseFormReset } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 export type createPageType = (
   data: CreatePageSchemaType,
   reset: UseFormReset<any>,
 ) => Promise<void>;
 
-export type removePageType = (id: number) => Promise<void>;
+export type removePageType = (id: number, title: string) => Promise<void>;
 
-export const usePages = () => {
+export const usePages = ({ autoFetch = true }: { autoFetch?: boolean }) => {
   const [pages, setPages] = useState<PageType[]>();
+  const [page, setPage] = useState<PageType>();
   const [isLoading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const createPage = async (
     data: CreatePageSchemaType,
@@ -26,7 +30,7 @@ export const usePages = () => {
   ) => {
     try {
       const { json, response } = await fetchAPICreatePage(data);
-      toast(json.msg);
+      json.msg && toast(json.msg);
       if (json.data && response.ok) {
         setPages((prev) => prev && ([json.data, ...prev] as PageType[]));
       }
@@ -37,28 +41,53 @@ export const usePages = () => {
     }
   };
 
-  const removePage = async (id: number) => {
-    if (confirm("Está seguro que quiere eliminar la página ?")) {
-      const { response, json } = await fetchAPIRemovePage(id);
-      toast(json.msg);
-      if (response.status == 200) {
-        const newPages = pages?.filter((item) => item.id != id);
-        setPages(newPages);
+  const removePage = async (id: number, title: string) => {
+    try {
+      if (confirm(`¿Está seguro que quiere eliminar la página ${title} ?`)) {
+        const { response, json } = await fetchAPIRemovePage(id);
+        json.msg && toast(json.msg);
+        if (response.status == 200) {
+          const newPages = pages?.filter((item) => item.id != id);
+          setPages(newPages);
+        }
       }
+    } catch {
+      toast("Hubo un error, vuelve a intentarlo más tarde.");
+    }
+  };
+
+  const getPageById = async (id: number) => {
+    try {
+      const { response, json } = await fetchAPIGetPageById(id);
+      json.msg && toast(json.msg);
+      response.status != 200 && navigate("/dashboard");
+      if (response.status == 200) {
+        setLoading(true);
+        setPage(json?.page);
+      }
+    } catch {
+      toast("Hubo un error, vuelve a intentarlo más tarde.");
+      navigate("/dashboard");
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
-      const { json } = await fetchAPIUserPages();
-      setPages(json);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const { json } = await fetchAPIUserPages();
+        setPages(json);
+        setLoading(false);
+      } catch {
+        toast("Hubo un error, vuelve a intentarlo más tarde.");
+      }
     };
-    if (!pages) {
+    if (!pages && autoFetch) {
       fetchData();
     }
   }, [pages]);
 
-  return { isLoading, pages, removePage, createPage };
+  return { isLoading, pages, removePage, createPage, getPageById, page };
 };

@@ -7,9 +7,11 @@ export interface CInputProps {
   name: string;
   placeholder?: string;
   type?: string;
+  defaultValue?: string;
   label: string;
   register: UseFormRegister<any>;
   errors: FieldErrors<any>;
+  readonly?: boolean;
 }
 
 export const CInput: React.FC<CInputProps> = ({
@@ -20,6 +22,8 @@ export const CInput: React.FC<CInputProps> = ({
   label,
   register,
   errors,
+  defaultValue,
+  readonly,
 }) => {
   return (
     <label htmlFor={name} className="flex w-full max-w-2xl flex-col gap-2">
@@ -32,6 +36,8 @@ export const CInput: React.FC<CInputProps> = ({
           placeholder={placeholder}
           className="w-full outline-none"
           {...register(name)}
+          defaultValue={defaultValue}
+          readOnly={readonly}
         />
       </div>
       {errors[name] && (

@@ -1,8 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { HomePage, AuthPage } from "@/pages";
 import { Toaster } from "sonner";
-import { DashboardPage } from "./pages";
-import { AuthContextProvider } from "./contexts/AuthContext/AuthContext";
+import { HomePage, AuthPage, DashboardPage, EditPage } from "@/pages";
+import { AuthContextProvider } from "@/contexts";
 
 function App() {
   return (
@@ -13,6 +12,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/edit/:id" element={<EditPage />} />
         </Routes>
       </AuthContextProvider>
     </BrowserRouter>

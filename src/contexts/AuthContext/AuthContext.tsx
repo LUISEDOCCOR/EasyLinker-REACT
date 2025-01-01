@@ -25,9 +25,11 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
   const isLogged = getCookie("email") && getCookie("token");
   const email = getCookie("email");
   const Logout = () => {
-    removeCookie("token");
-    removeCookie("email");
-    navigate("/");
+    if (confirm("¿Estás seguro de cerrar sesión?")) {
+      removeCookie("token");
+      removeCookie("email");
+      navigate("/");
+    }
   };
 
   return (
